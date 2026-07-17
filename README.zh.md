@@ -1,5 +1,10 @@
 # Codex Converter（会话互转工具）
 
+[![GitHub](https://img.shields.io/badge/GitHub-gitgoready%2Fclaude--codex--switch-blue)](https://github.com/gitgoready/claude-codex-switch)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform: Windows | Linux | macOS](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)](#跨平台说明)
+[![Python 3.7+](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
+
 [English](README.md) · [中文](README.zh.md)
 
 在 **Claude Code** 与 **Codex** 之间互转会话，让你在一方额度用完后，
@@ -52,8 +57,8 @@ Claude 就会自动调用本工具完成转换。
 ### 2. 直接作为 Python CLI 运行
 
 ```bash
-git clone https://github.com/<your-user>/codex_converter.git
-cd codex_converter
+git clone https://github.com/gitgoready/claude-codex-switch.git
+cd claude-codex-switch
 
 # 先确认路径被正确识别
 python scripts/converter.py status
