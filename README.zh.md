@@ -52,9 +52,11 @@
 
 ```bash
 # Linux / macOS
+mkdir -p ~/.claude/skills
 ln -s /path/to/claude-codex-switch ~/.claude/skills/claude-codex-switch
 
 # Windows（PowerShell，管理员权限）
+New-Item -ItemType Directory -Path "$env:USERPROFILE\.claude\skills" -Force
 New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\skills\claude-codex-switch" -Target "D:\path\to\claude-codex-switch"
 ```
 
