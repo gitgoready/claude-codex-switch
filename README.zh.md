@@ -1,4 +1,4 @@
-# Codex Converter（会话互转工具）
+# Claude-Codex Switch（会话互转工具）
 
 [![GitHub](https://img.shields.io/badge/GitHub-gitgoready%2Fclaude--codex--switch-blue)](https://github.com/gitgoready/claude-codex-switch)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -67,7 +67,7 @@ python scripts/converter.py status
 Windows 上的示例输出：
 
 ```
-[i] Codex Converter status
+[i] Claude-Codex Switch status
   CLAUDE_HOME      : C:\Users\admin\.claude
   Claude projects  : C:\Users\admin\.claude\projects
   CODEX_HOME       : C:\Users\admin\.codex

@@ -13,7 +13,7 @@ description: >-
   Cross-platform - Windows, Linux, macOS.
 ---
 
-# Codex Converter Skill
+# Claude-Codex Switch Skill
 
 Convert coding-agent sessions between **Claude Code** and **Codex** so you can
 switch frameworks mid-task without losing context — typically because one

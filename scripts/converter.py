@@ -57,7 +57,7 @@ DIRECTION_ALIASES = {
 
 
 def _show_status() -> int:
-    info('Codex Converter status')
+    info('Claude-Codex Switch status')
     print(f'  CLAUDE_HOME      : {claude_home()}')
     print(f'  Claude projects  : {claude_projects_root()}')
     print(f'  CODEX_HOME       : {codex_home()}')
