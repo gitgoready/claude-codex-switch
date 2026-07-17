@@ -1,6 +1,16 @@
 ---
 name: codex-converter
-description: Convert coding-agent sessions between Claude Code and Codex (both directions). Use when the user wants to migrate an in-progress conversation from one agent to the other (e.g. after hitting a quota limit on one side), or when they ask to "convert this Codex session to Claude" / "convert this Claude session to Codex" / "import a Claude session into Codex". Produces a rollout JSONL + registers it in Codex's state DB, or writes a Claude-compatible JSONL into ~/.claude/projects/<slug>/, with a "From Claude" / "From Codex" title prefix that includes the original session name and a local timestamp. Cross-platform: Windows, Linux, macOS.
+description: >-
+  Convert coding-agent sessions between Claude Code and Codex (both
+  directions). Use when the user wants to migrate an in-progress
+  conversation from one agent to the other (e.g. after hitting a quota
+  limit on one side), or when they ask to "convert this Codex session to
+  Claude" / "convert this Claude session to Codex" / "import a Claude
+  session into Codex". Produces a rollout JSONL + registers it in Codex's
+  state DB, or writes a Claude-compatible JSONL into
+  ~/.claude/projects/<slug>/, with a "From Claude" / "From Codex" title
+  prefix that includes the original session name and a local timestamp.
+  Cross-platform - Windows, Linux, macOS.
 ---
 
 # Codex Converter Skill

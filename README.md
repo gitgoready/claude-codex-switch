@@ -187,10 +187,6 @@ codex_converter/
 │   ├── claude_to_codex.py   # Claude JSONL -> Codex rollout + DB row
 │   ├── codex_to_claude.py   # Codex rollout -> Claude JSONL
 │   └── codex_import.py      # Cross-platform replacement for codex-import.sh
-└── legacy/                  # Original Linux-only scripts, kept for reference
-    ├── claude_to_codex.py
-    ├── codex_to_claude.py
-    └── codex-import.sh
 ```
 
 ## Limitations

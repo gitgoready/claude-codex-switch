@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cross-platform replacement for the legacy ``codex-import.sh``.
+"""Cross-platform replacement for the original Linux-only ``codex-import.sh``.
 
 Takes a path to a Claude session JSONL (or any rollout-style JSONL you want
 Codex to ingest), copies it into ``~/.codex/sessions/YYYY/MM/DD/`` if it's

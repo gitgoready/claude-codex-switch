@@ -179,10 +179,6 @@ codex_converter/
 │   ├── claude_to_codex.py   # Claude JSONL -> Codex rollout + DB 行
 │   ├── codex_to_claude.py   # Codex rollout -> Claude JSONL
 │   └── codex_import.py      # 跨平台替代 codex-import.sh
-└── legacy/                  # 原始的 Linux-only 脚本，保留作参考
-    ├── claude_to_codex.py
-    ├── codex_to_claude.py
-    └── codex-import.sh
 ```
 
 ## 已知限制
