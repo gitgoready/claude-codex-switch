@@ -1,11 +1,21 @@
 # Claude-Codex Switch（会话互转工具）
 
-[![GitHub](https://img.shields.io/badge/GitHub-gitgoready%2Fclaude--codex--switch-blue)](https://github.com/gitgoready/claude-codex-switch)
+[![GitHub stars](https://img.shields.io/github/stars/gitgoready/claude-codex-switch?style=social)](https://github.com/gitgoready/claude-codex-switch)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-gitgoready%2Fclaude--codex--switch-blue)](https://github.com/gitgoready/claude-codex-switch)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)](#跨平台说明)
 [![Python 3.7+](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
 
+> ⭐ **如果这个工具救过你的会话，欢迎 [star 支持](https://github.com/gitgoready/claude-codex-switch/stargazers)！** ⭐
+
 [English](README.md) · [中文](README.zh.md)
+
+## 演示
+
+> 🎬 **录屏即将上线** - 30-60 秒 GIF，展示 Claude -> Codex 完整转换流程，
+> 包括 `From Claude - <原会话名> - <时间戳>` 标题出现在 Codex 历史列表里的效果。
+>
+> 自己录制：保存为 `docs/demo.gif`，然后把上面这块替换成 `![演示](docs/demo.gif)`。
 
 在 **Claude Code** 与 **Codex** 之间互转会话，让你在一方额度用完后，
 可以快速切换到另一个 agent 框架继续同一个任务，而不会丢失上下文。

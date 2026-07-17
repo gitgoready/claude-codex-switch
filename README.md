@@ -1,11 +1,23 @@
 # Claude-Codex Switch
 
-[![GitHub](https://img.shields.io/badge/GitHub-gitgoready%2Fclaude--codex--switch-blue)](https://github.com/gitgoready/claude-codex-switch)
+[![GitHub stars](https://img.shields.io/github/stars/gitgoready/claude-codex-switch?style=social)](https://github.com/gitgoready/claude-codex-switch)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-gitgoready%2Fclaude--codex--switch-blue)](https://github.com/gitgoready/claude-codex-switch)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform: Windows | Linux | macOS](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)](#cross-platform-notes)
 [![Python 3.7+](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
 
+> ⭐ **If this tool saved your session, please [star the repo](https://github.com/gitgoready/claude-codex-switch/stargazers)!** ⭐
+
 [English](README.md) · [中文](README.zh.md)
+
+## Demo
+
+> 🎬 **Screen recording coming soon** - a 30-60s GIF showing a Claude -> Codex
+> conversion end-to-end, including the `From Claude - <original> - <timestamp>`
+> title appearing in Codex's history list.
+>
+> To add your own: record a GIF, save as `docs/demo.gif`, then replace this
+> block with `![Demo](docs/demo.gif)`.
 
 Convert coding-agent sessions between **Claude Code** and **Codex** so you can
 switch frameworks mid-task without losing context - typically because one
