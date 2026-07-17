@@ -82,7 +82,7 @@ def encode_claude_project_slug(cwd: str | Path) -> str:
     """Encode a working directory the way Claude does for project folder names.
 
     Claude replaces path separators with '-' and keeps other safe characters.
-    Example: /home/zy/work/proj  ->  -home-zy-work-proj
+    Example: /home/user/my-project  ->  -home-user-my-project
              C:\\Users\\me\\proj  ->  -C--Users-me-proj  (close enough; Claude
     uses the same scheme but with mixed slashes normalized.)
     """

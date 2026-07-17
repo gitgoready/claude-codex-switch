@@ -68,11 +68,11 @@ Windows 上的示例输出：
 
 ```
 [i] Claude-Codex Switch status
-  CLAUDE_HOME      : C:\Users\admin\.claude
-  Claude projects  : C:\Users\admin\.claude\projects
-  CODEX_HOME       : C:\Users\admin\.codex
-  Codex sessions   : C:\Users\admin\.codex\sessions
-  Codex state DB   : C:\Users\admin\.codex\state_5.sqlite (exists=True)
+  CLAUDE_HOME      : C:\Users\<username>\.claude
+  Claude projects  : C:\Users\<username>\.claude\projects
+  CODEX_HOME       : C:\Users\<username>\.codex
+  Codex sessions   : C:\Users\<username>\.codex\sessions
+  Codex state DB   : C:\Users\<username>\.codex\state_5.sqlite (exists=True)
   Python           : 3.7.4 on win32
 ```
 

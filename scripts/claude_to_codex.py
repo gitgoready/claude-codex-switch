@@ -14,7 +14,7 @@ Run directly:
     python claude_to_codex.py --list
     python claude_to_codex.py --preview <path>
     python claude_to_codex.py --convert <path>
-    python claude_to_codex.py --convert <path> --cwd /home/zy/work/proj
+    python claude_to_codex.py --convert <path> --cwd /home/user/my-project
     python claude_to_codex.py --batch
 """
 

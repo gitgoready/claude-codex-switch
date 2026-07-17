@@ -13,7 +13,7 @@ and title formatting.
 Usage:
     python codex_import.py <rollout-or-claude-jsonl>
     python codex_import.py <path> --title "From Claude - fix login - 2026-07-17 14-30"
-    python codex_import.py <path> --cwd /home/zy/work/proj
+    python codex_import.py <path> --cwd /home/user/my-project
 """
 
 from __future__ import annotations
