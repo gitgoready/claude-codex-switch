@@ -1,0 +1,13 @@
+# Use LF line endings for text files so the skill works the same on Windows,
+# Linux, and macOS. Python in particular cares about consistent newlines.
+* text=auto eol=lf
+
+# Binary files - don't touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.zip binary
+*.gz binary
