@@ -1,5 +1,5 @@
 ---
-name: codex-converter
+name: claude-codex-switch
 description: >-
   Convert coding-agent sessions between Claude Code and Codex (both
   directions). Use when the user wants to migrate an in-progress

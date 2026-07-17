@@ -42,10 +42,10 @@
 
 ```bash
 # Linux / macOS
-ln -s /path/to/codex_converter ~/.claude/skills/codex-converter
+ln -s /path/to/claude-codex-switch ~/.claude/skills/claude-codex-switch
 
 # Windows（PowerShell，管理员权限）
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\skills\codex-converter" -Target "D:\path\to\codex_converter"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\skills\claude-codex-switch" -Target "D:\path\to\claude-codex-switch"
 ```
 
 之后在任意 Claude Code 会话里直接说：
@@ -167,7 +167,7 @@ From Codex  - <原会话名> - YYYY-MM-DD HH:MM:SS
 ## 目录结构
 
 ```
-codex_converter/
+claude-codex-switch/
 ├── SKILL.md                 # Claude Code 读取的 Skill 定义
 ├── README.md                # 英文文档
 ├── README.zh.md             # 中文文档（本文件）

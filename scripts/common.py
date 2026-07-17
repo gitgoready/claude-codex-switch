@@ -1,4 +1,4 @@
-"""Shared utilities for the codex_converter skill.
+"""Shared utilities for the claude-codex-switch skill.
 
 Cross-platform path resolution, title formatting, and Claude/Codex
 discovery helpers used by both directions of conversion.

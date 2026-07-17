@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unified entry point for the codex_converter skill.
+"""Unified entry point for the claude-codex-switch skill.
 
 Dispatches to ``claude_to_codex`` or ``codex_to_claude`` based on the first
 argument. Run with no args to see the top-level help.
@@ -78,7 +78,7 @@ def _show_status() -> int:
 
 
 def _print_intro() -> None:
-    print(f"""codex_converter v{VERSION} - convert sessions between Claude Code and Codex
+    print(f"""claude-codex-switch v{VERSION} - convert sessions between Claude Code and Codex
 
 Usage:
     python converter.py <direction> <subcommand> [options]
@@ -104,7 +104,7 @@ Run `python converter.py <direction> --help` for full subcommand options.
 
 def _run_import(args: List[str]) -> int:
     parser = argparse.ArgumentParser(
-        prog='codex_converter import',
+        prog='claude-codex-switch import',
         description='Import a Claude/rollout JSONL into Codex (cross-platform).',
     )
     parser.add_argument('source', help='Path to a Claude session .jsonl or rollout .jsonl')
@@ -148,7 +148,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         _print_intro()
         return 0
     if direction == 'version':
-        print(f'codex_converter skill v{VERSION}')
+        print(f'claude-codex-switch skill v{VERSION}')
         return 0
     if direction == 'status':
         return _show_status()

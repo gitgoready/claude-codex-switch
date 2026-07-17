@@ -43,10 +43,10 @@ Copy or symlink this folder to your Claude skills directory:
 
 ```bash
 # Linux / macOS
-ln -s /path/to/codex_converter ~/.claude/skills/codex-converter
+ln -s /path/to/claude-codex-switch ~/.claude/skills/claude-codex-switch
 
 # Windows (PowerShell, admin shell)
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\skills\codex-converter" -Target "D:\path\to\codex_converter"
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\skills\claude-codex-switch" -Target "D:\path\to\claude-codex-switch"
 ```
 
 Then in any Claude Code session you can say things like:
@@ -175,7 +175,7 @@ Claude transcript shows the origin clearly.
 ## Project layout
 
 ```
-codex_converter/
+claude-codex-switch/
 ├── SKILL.md                 # Skill definition Claude Code reads
 ├── README.md                # This file (English)
 ├── README.zh.md             # Chinese documentation
