@@ -13,7 +13,7 @@ Run directly:
     python codex_to_claude.py --list
     python codex_to_claude.py --preview <path>
     python codex_to_claude.py --convert <path>
-    python codex_to_claude.py --convert <path> --project-dir ~/.claude/projects/-home-zy-work-proj
+    python codex_to_claude.py --convert <path> --project-dir ~/.claude/projects/-home-<user-proj>
     python codex_to_claude.py --batch
     python codex_to_claude.py --convert --date 2026-05-01 --end-date 2026-05-24
 """
