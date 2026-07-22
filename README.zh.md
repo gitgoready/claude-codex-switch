@@ -66,7 +66,39 @@ New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\skills\claude-co
 
 Claude 就会自动调用本工具完成转换。
 
-### 2. 直接作为 Python CLI 运行
+### 2. 在 Codex 中使用
+
+Codex 没有像 Claude Code 那样的 skill 发现机制，不能"安装"进去后用自然语言
+调用。Codex 用户有两种用法：
+
+**方式 A - 在终端里直接跑 CLI**（Codex 会话前后手动操作）：
+
+```bash
+# 列出你的 Codex 会话
+python scripts/converter.py codex-to-claude list
+
+# 把一个 Codex 会话转成 Claude
+python scripts/converter.py codex-to-claude convert ~/.codex/sessions/2026/07/17/rollout-*.jsonl
+```
+
+然后在目标项目里打开 Claude Code，转过来的会话会出现在历史列表里，
+标题是 `From Codex - <原会话名> - <时间戳>`。
+
+**方式 B - 让 Codex 帮你跑转换命令**（Codex 能执行 shell 命令）。
+在 Codex 会话里直接说：
+
+> 运行 `python /path/to/claude-codex-switch/scripts/converter.py codex-to-claude convert <会话路径>`
+
+Codex 会执行命令并报告结果。适合在 Codex 会话里额度快用完、想转到
+Claude Code 继续的场景。
+
+> **小技巧：** 想让 Codex 不用每次都输完整路径，可以在项目的 `AGENTS.md`
+> （Codex 的 `CLAUDE.md` 等价物）里加一行：
+> ```
+> 会话转换工具：python /path/to/claude-codex-switch/scripts/converter.py
+> ```
+
+### 3. 直接作为 Python CLI 运行
 
 ```bash
 git clone https://github.com/gitgoready/claude-codex-switch.git

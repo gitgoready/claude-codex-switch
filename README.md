@@ -69,7 +69,42 @@ Then in any Claude Code session you can say things like:
 
 and Claude will run the converter for you.
 
-### 2. Run directly as a Python CLI
+### 2. Using from Codex
+
+Codex doesn't have a skill-discovery system like Claude Code, so you can't
+"install" this tool into Codex and invoke it by natural language. Instead,
+Codex users have two options:
+
+**Option A - Run the CLI from a terminal** (before or after a Codex session):
+
+```bash
+# List your Codex sessions
+python scripts/converter.py codex-to-claude list
+
+# Convert a Codex session to Claude
+python scripts/converter.py codex-to-claude convert ~/.codex/sessions/2026/07/17/rollout-*.jsonl
+```
+
+Then open Claude Code in the target project - the migrated session appears
+in history with a `From Codex - <original> - <timestamp>` title.
+
+**Option B - Ask Codex to run the converter for you** (Codex can execute
+shell commands). In a Codex session, say:
+
+> Run `python /path/to/claude-codex-switch/scripts/converter.py codex-to-claude convert <session-path>`
+
+Codex will execute the command and report the result. This is handy when
+you're already in a Codex session and want to hand off to Claude Code
+because your Codex quota ran out.
+
+> **Tip:** To make Codex aware of the converter without repeating the path,
+> add a one-line note to your project's `AGENTS.md` (Codex's equivalent of
+> `CLAUDE.md`):
+> ```
+> Session conversion tool: python /path/to/claude-codex-switch/scripts/converter.py
+> ```
+
+### 3. Run directly as a Python CLI
 
 ```bash
 git clone https://github.com/gitgoready/claude-codex-switch.git
