@@ -182,6 +182,9 @@ def _register_thread(
         'model_provider': 'openai',
         'cwd': cwd,
         'title': title,
+        # The Codex UI displays `name` when set and may regenerate `title`
+        # from first_user_message, so write both.
+        'name': title,
         'sandbox_policy': '{"type":"danger-full-access"}',
         'approval_mode': 'never',
         'tokens_used': 0,

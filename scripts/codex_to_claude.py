@@ -223,8 +223,11 @@ def _lookup_codex_thread_title(session_id: str) -> str:
         if not table_exists:
             conn.close()
             return ''
+        # The Codex UI shows the user-renamed `name` when set, falling back to
+        # the auto-generated `title`. Mirror that so migrated titles match.
         row = cursor.execute(
-            'SELECT title FROM threads WHERE id = ? LIMIT 1', (session_id,)
+            "SELECT COALESCE(NULLIF(name, ''), title) FROM threads WHERE id = ? LIMIT 1",
+            (session_id,),
         ).fetchone()
         conn.close()
         return row[0] if row else ''
@@ -389,8 +392,26 @@ def convert_session(
         elif msg.role == 'assistant':
             assistant_count += 1
 
+    # Session-title entries so the migrated title shows up in the pickers:
+    # - `ai-title` is what current Claude Code (incl. the VSCode extension)
+    #    writes and reads for session titles.
+    # - `summary` is the older CLI mechanism, kept for compatibility.
+    # Without either, pickers fall back to the first user message.
+    title_entries = [
+        {
+            'type': 'ai-title',
+            'sessionId': session_id,
+            'aiTitle': migrated_title,
+        },
+        {
+            'type': 'summary',
+            'summary': migrated_title,
+            'leafUuid': parent_uuid,
+        },
+    ]
+
     target_path = target_project_dir / f'{session_id}.jsonl'
-    write_jsonl(target_path, converted_entries)
+    write_jsonl(target_path, title_entries + converted_entries)
 
     return {
         'status': 'success',
@@ -421,6 +442,73 @@ def find_all_codex_sessions() -> List[Path]:
 
 
 def list_sessions() -> None:
+    """List Codex sessions the way the Codex UI does.
+
+    Prefers the state DB so we can exclude archived threads, hide subagent
+    threads, prefer the user-renamed ``name`` over the auto-generated
+    ``title``, and sort by ``recency_at``. Falls back to a raw file scan
+    when the DB is unavailable.
+    """
+    db_path = codex_state_db()
+    if db_path.exists() and _list_sessions_from_db(db_path):
+        return
+    _list_sessions_from_files()
+
+
+def _human_size(size: int) -> str:
+    return f'{size / 1024:.1f}KB' if size < 1024 * 1024 else f'{size / 1024 / 1024:.1f}MB'
+
+
+def _strip_unc_prefix(path: str) -> str:
+    # Windows DB rows may store paths with a '\\?\' extended-length prefix.
+    return path.replace('\\\\?\\', '') if path else path
+
+
+def _list_sessions_from_db(db_path: Path) -> bool:
+    try:
+        conn = sqlite3.connect(f'file:{db_path.as_posix()}?mode=ro', uri=True)
+        cursor = conn.cursor()
+        rows = cursor.execute(
+            '''
+            SELECT id, COALESCE(NULLIF(name, ''), title) AS display_title,
+                   cwd, rollout_path, recency_at, source
+            FROM threads
+            WHERE archived = 0
+            ORDER BY recency_at DESC
+            '''
+        ).fetchall()
+        conn.close()
+    except Exception:
+        return False
+
+    # The Codex UI hides subagent threads (guardian reviews, spawned agents).
+    user_rows = [r for r in rows if 'subagent' not in (r[5] or '')]
+    hidden = len(rows) - len(user_rows)
+    info(
+        f'Found {len(user_rows)} Codex session(s) '
+        f'(archived excluded; {hidden} subagent thread(s) hidden)'
+    )
+    if not user_rows:
+        return True
+
+    print(f"\n{'Recency':<20} {'Size':<10} {'Title':<42} Path")
+    print('-' * 110)
+    for tid, title, cwd, rollout_path, recency_at, source in user_rows:
+        ts = (
+            datetime.fromtimestamp(recency_at).strftime('%Y-%m-%d %H:%M:%S')
+            if recency_at else '-'
+        )
+        clean = _strip_unc_prefix(rollout_path or '')
+        try:
+            size_str = _human_size(os.path.getsize(clean)) if clean else '?'
+        except OSError:
+            size_str = '(missing)'
+        title_disp = ' '.join((title or '(untitled)').split())[:40]
+        print(f'{ts:<20} {size_str:<10} {title_disp:<42} {clean}')
+    return True
+
+
+def _list_sessions_from_files() -> None:
     sessions = find_all_codex_sessions()
     info(f'Found {len(sessions)} Codex session(s) under {codex_sessions_dir()}')
     if not sessions:
@@ -429,8 +517,7 @@ def list_sessions() -> None:
     print(f"\n{'Date':<12} {'Time':<10} {'Size':<10} Path")
     print('-' * 80)
     for path in sessions:
-        size = path.stat().st_size
-        size_str = f'{size / 1024:.1f}KB' if size < 1024 * 1024 else f'{size / 1024 / 1024:.1f}MB'
+        size_str = _human_size(path.stat().st_size)
         basename = path.name
         parts = basename.replace('rollout-', '').replace('.jsonl', '').split('T')
         date_str = parts[0] if parts and parts[0] else 'unknown'
@@ -467,6 +554,7 @@ def convert_single(
     path: str | Path,
     project_dir: Optional[Path] = None,
     project_slug: Optional[str] = None,
+    cwd_override: Optional[str] = None,
 ) -> Optional[Dict[str, Any]]:
     p = Path(path)
     if not p.exists():
@@ -474,6 +562,8 @@ def convert_single(
         return None
 
     session = parse_codex_session(p)
+    if cwd_override:
+        session.cwd = cwd_override
     result = convert_session(
         session,
         target_project_dir=project_dir,
@@ -564,6 +654,11 @@ def build_parser() -> argparse.ArgumentParser:
         '--project-slug',
         help='Override the slug stored in each Claude entry (default: target dir name)',
     )
+    p_convert.add_argument(
+        '--cwd',
+        help="Override the session's cwd. Use when the session has a missing or "
+             'wrong working directory; also drives target project dir detection.',
+    )
 
     return parser
 
@@ -585,6 +680,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 args.path,
                 project_dir=project_dir,
                 project_slug=args.project_slug,
+                cwd_override=args.cwd,
             )
             return 0 if result and result['status'] == 'success' else 1
         if args.date or args.end_date:

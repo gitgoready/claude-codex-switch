@@ -96,6 +96,8 @@ class ClaudeSession:
     slug: str = ''
     date: str = ''
     cwd: str = ''
+    ai_title: str = ''
+    summary_title: str = ''
     messages: List[Message] = field(default_factory=list)
     total_entries: int = 0
 
@@ -197,6 +199,14 @@ def parse_claude_session(session_path: str | Path) -> ClaudeSession:
             first_date = entry['timestamp'][:10]
         if not first_cwd and entry.get('cwd'):
             first_cwd = entry['cwd']
+
+        # Current Claude Code stores the picker title in `ai-title` entries
+        # (AI-generated or user-renamed); older files use `summary`. Latest
+        # entry wins, matching how Claude Code rewrites them.
+        if msg_type == 'ai-title' and entry.get('aiTitle'):
+            session.ai_title = entry['aiTitle']
+        elif msg_type == 'summary' and entry.get('summary'):
+            session.summary_title = entry['summary']
 
         if msg_type in ('user', 'assistant'):
             msg_content = entry.get('message', {}).get('content', '')
@@ -657,14 +667,20 @@ def convert_session(
 
     write_jsonl(target_path, entries)
 
-    # Title with "From Claude" prefix + original first user message + timestamp.
-    original_title = first_display_user_message(messages) or 'untitled Claude session'
+    # Title with "From Claude" prefix + original session title + timestamp.
+    # Prefer the title Claude Code itself displays (ai-title, then summary)
+    # so the Codex side matches what the user saw in Claude; fall back to
+    # the first non-synthetic user message.
+    first_msg = first_display_user_message(messages)
+    original_title = (
+        session.ai_title or session.summary_title or first_msg or 'untitled Claude session'
+    )
     title = build_migrated_title(
         source_label=TITLE_PREFIX_FROM_CLAUDE,
         original_title=original_title,
         source_timestamp=first_ts,
     )
-    preview = compact_text(original_title, 500) or title
+    preview = compact_text(first_msg or original_title, 500) or title
 
     if register:
         _register_in_codex_db(
@@ -672,7 +688,7 @@ def convert_session(
             target_path=target_path,
             title=title,
             preview=preview,
-            first_msg=original_title,
+            first_msg=first_msg or '',
             created_at=epoch_seconds(first_ts),
             created_at_ms=epoch_millis(first_ts),
             cwd=cwd,
@@ -732,6 +748,10 @@ def _register_in_codex_db(
             'model_provider': 'openai',
             'cwd': cwd,
             'title': title,
+            # The Codex UI displays `name` when set and may regenerate `title`
+            # from first_user_message, so write both to keep the migrated
+            # title visible.
+            'name': title,
             'sandbox_policy': '{"type":"danger-full-access"}',
             'approval_mode': 'never',
             'tokens_used': 0,

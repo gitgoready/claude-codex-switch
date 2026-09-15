@@ -50,11 +50,23 @@ From Codex  - <original session name> - YYYY-MM-DD HH:MM:SS
 
 The original session name comes from:
 
-- Claude → Codex: the first non-synthetic user message in the Claude session.
-- Codex → Claude: the `title` column in Codex's `threads` table (looked up by
-  session id), falling back to the first user message.
+- Claude → Codex: the session's `ai-title` entry (what current Claude Code,
+  including the VSCode extension, displays as the title), then `summary`,
+  then the first non-synthetic user message. The migrated title is written
+  to BOTH the `name` and `title` columns of Codex's `threads` table, because
+  the Codex UI displays `name` when set and may regenerate `title` from the
+  first user message.
+- Codex → Claude: the user-renamed `name` column in Codex's `threads` table
+  when set, otherwise the auto-generated `title` column (matching what the
+  Codex UI shows), falling back to the first user message.
 
 Timestamps are converted to **local time** for readability.
+
+For Codex → Claude, two title entries are prepended to the generated JSONL:
+`{"type": "ai-title", ...}` (what current Claude Code, including the VSCode
+extension, writes/reads for session titles) and `{"type": "summary", ...}`
+(the older CLI mechanism, kept for compatibility). Without either, pickers
+fall back to showing the first user message instead of the migrated title.
 
 ## How to run
 
@@ -67,6 +79,10 @@ python scripts/converter.py status
 # List sessions on either side
 python scripts/converter.py claude-to-codex list
 python scripts/converter.py codex-to-claude list
+# (codex-to-claude list mirrors the Codex UI: reads state_5.sqlite, excludes
+#  archived threads, hides subagent threads, prefers the user-renamed `name`
+#  over `title`, sorts by recency_at descending; falls back to a raw file
+#  scan when the DB is missing)
 
 # Preview without converting
 python scripts/converter.py claude-to-codex preview <path-to-claude-jsonl>
@@ -75,6 +91,10 @@ python scripts/converter.py codex-to-claude preview <path-to-codex-rollout>
 # Convert a single session
 python scripts/converter.py claude-to-codex convert <path-to-claude-jsonl>
 python scripts/converter.py codex-to-claude convert <path-to-codex-rollout>
+
+# Convert a Codex session whose cwd is missing/wrong: --cwd overrides the
+# recorded working directory and drives target project dir detection
+python scripts/converter.py codex-to-claude convert <path-to-codex-rollout> --cwd "D:\work\zyq"
 
 # Batch convert
 python scripts/converter.py claude-to-codex batch
